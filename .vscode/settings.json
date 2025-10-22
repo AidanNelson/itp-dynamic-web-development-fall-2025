@@ -1,0 +1,6 @@
+{
+    "[markdown]": {
+        "prettier.proseWrap": "never",
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
+}

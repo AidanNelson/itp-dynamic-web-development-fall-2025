@@ -1,0 +1,31 @@
+<html>
+  <head>
+    <title>Video JavaScript</title>
+  </head>
+  <body>
+    <!-- Add an “id” to the video tag so that we can access it easily in JavaScript -->
+    <video width="720" height="480" controls id="thevideo">
+      <source src="../assets/cat.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <!-- When this button is clicked, call the doSomething function -->
+    <button onClick="doSomething()">Do Something here</button>
+    <script type="text/javascript">
+      // Get Access to the Video Object
+      var theVideoObject = document.getElementById("thevideo");
+
+      // Called by the Do Something button
+      function doSomething() {
+        // Change the width
+        theVideoObject.width = theVideoObject.width / 2;
+        if (theVideoObject.paused) {
+          // If the video is paused, call play
+          theVideoObject.play();
+        } else {
+          // Otherwise, pause it
+          theVideoObject.pause();
+        }
+      }
+    </script>
+  </body>
+</html>
