@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hello <%= myName %></title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
+        h1 {
+            color: #<%=myFavoriteColor %>;
+        }
+        img {
+            width: 100px;
+        }
+        #myFavoriteColorDiv{
+            width: 100px;
+            height: 50px;
+            background-color: #<%=myFavoriteColor %>;
+        }
+    </style>
+</head>
+
+<body>
+    <img src="myImage.png" />
+    <h1>Hello my friend: <%= myName %></h1>
+    <p>My Favorite Color is <div id="myFavoriteColorDiv"></div></p>
+    <p>You might like to try: <%= fish %></p>
+</body>
+</html>
