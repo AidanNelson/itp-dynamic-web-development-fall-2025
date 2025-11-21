@@ -1,0 +1,63 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="style.css" type="text/css">
+		<title>Comm Lab Networked Media : Canvas : Example 1</title>
+	</head>
+	<body>
+		<h1>HTML 5 Canvas Example 1 - "draw" loop</h1>
+				
+		<pre>
+&lt;canvas width="600" height="600" id="mycanvas" /&gt;
+
+&lt;script type="text/javascript"&gt;
+	
+	var canvas = document.getElementById('mycanvas');
+	var context = canvas.getContext('2d');
+	
+	var x = 0;
+	var y = Math.random()*canvas.width;
+	var draw = function() {
+		context.beginPath();
+		// This is silly but it's what we have to do to get a random hex string
+		context.strokeStyle='#'+(Math.random()*0xFFFFFF<<0).toString(16);
+		context.moveTo(x,y);
+		context.lineTo(canvas.width/2,canvas.height/2);
+		context.stroke();
+		x++;
+		if (x &gt; canvas.width) { x = 0; }
+		y = Math.random()*canvas.width;
+	};
+				
+	setInterval(draw,1000/30); // 30 x per second
+	
+&lt;/script&gt;
+		</pre>		
+
+		<canvas width="600" height="600" id="mycanvas"  />
+		
+		<script type="text/javascript">
+
+			var canvas = document.getElementById('mycanvas');
+			var context = canvas.getContext('2d');
+			
+			var x = 0;
+			var y = Math.random()*canvas.width;
+			var draw = function() {
+				context.beginPath();
+			
+				// This is silly but it's what we have to do to get a random hex string
+				context.strokeStyle='#'+(Math.random()*0xFFFFFF<<0).toString(16);
+			
+				context.moveTo(x,y);
+				context.lineTo(canvas.width/2,canvas.height/2);
+				context.stroke();
+				x++;
+				if (x > canvas.width) { x = 0; }
+				y = Math.random()*canvas.width;
+			};
+			setInterval(draw,1000/30); // 30 x per second
+      			
+		</script>
+		
+        </body>
+</html>

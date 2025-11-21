@@ -1,0 +1,77 @@
+
+<html>
+	<head>
+		<link rel="stylesheet" href="style.css" type="text/css">
+		<title>Express Templates</title>
+	</head>
+	<body>
+		<h1>Express Templates</h1>
+		
+		<p>As we have experienced, generating HTML within a node.js/Express server can be painful.  Fortunately, there is a solution called templates which allow you to create your HTML as a separate file and have the Express template system bind data to your variables.</p>
+		
+		<p>There are a <a href="https://github.com/expressjs/express/wiki?_ga=1.148202167.14603651.1486561881#template-engines">plethora templating systems</a>, many of which are cross-platform (moustache) and/or inspired by other platforms (jade/pug).  These unfortunately are either complex to setup or require that you learn another language for authoring HTML.  Fortunately, there is one system, <a href="https://www.npmjs.com/package/ejs">ejs</a> (embedded JavasScript) which allows regular HTML authoring with the ability to insert simple JavaScript statements which get run on the server side.</p>		
+		
+		<p>The first step to using ejs with Express is to install the module:
+
+<pre>
+npm install ejs
+</pre>
+		
+		</p>
+		
+		<p>To use ejs in our express app, we set the "view engine" to be "ejs" and then create a template to use
+		
+<pre>
+app.set('view engine', 'ejs');
+</pre>
+
+		Here is a basic template:
+
+<pre>
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;body&gt;
+        &lt;h1&gt;My Cool Page&lt;/h1&gt;
+        &lt;% if (person) {  %&gt;
+                &lt;h2&gt;&lt;%= person.name %&gt;&lt;h2&gt;
+                &lt;h3&gt;&lt;%= person.other %&gt;&lt;/h3&gt;
+        &lt;% } %&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+		save it as "template.ejs" inside a folder called "views" which is the default.
+		</p>
+		
+		<p>
+		Then to use a template as the response to a request we do the following:
+		
+<pre>
+app.get('/templatetest', function(req, res) {
+	var data = {person: {name: "Shawn", other: "blah"}};
+    res.render('template.ejs', data);
+});
+</pre>		
+
+		The "render" function takes in the template file and binds the "data" to it.  Of course, the "data" can be any data.
+
+		</p>
+		
+		<p>To render an array of data:
+<pre>
+var data = {people: [{name: "Shawn", other: "blah"}, {name: "Joe", other: "No"}]};
+</pre>
+	
+		you can use a "forEach" in the template:
+<pre>
+&lt;% people.forEach(function(person) {  %&gt;
+		&lt;h2&gt;&lt;%= person.name %&gt;&lt;h2&gt;
+		&lt;h3&gt;&lt;%= person.other %&gt;&lt;/h3&gt;
+&lt;% }); %&gt;
+</pre>	
+		<p>
+			<b>More Information:</b> <a href="https://scotch.io/tutorials/use-ejs-to-template-your-node-application">Templating with EJS</a>
+		
+		</p>
+	</body>
+</html>

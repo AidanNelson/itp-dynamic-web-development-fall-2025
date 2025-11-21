@@ -1,0 +1,87 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="style.css" type="text/css">
+		<title>The HTML and JS Document Object Model</title>
+	</head>
+	<body>
+<h1>The HTML and JS Document Object Model</h1>
+        
+        	<p>
+        		HTML creates a document, JavaScript can access that document through a data structure called the DOM (or Document Object Model).  This structure allows us to access each individual element as an object with a parent/child relationship or directly by ID:
+        	</p>
+				
+			<h3>Straight JavaScript</h3>
+
+			<pre>
+var thediv = document.getElementById('mydiv');
+thediv.innerHTML = "soemthing else";
+			</pre>
+			
+			<p>Some things that you might want to look over: <a href="http://www.w3schools.com/jsref/prop_style_visibility.asp">visibility</a> and <a href="http://www.w3schools.com/jsref/met_document_createelement.asp">createElement and appendChild</a></p>
+
+			<h3>Manipulating Style Attributes</h3>
+			
+			<p>Using the DOM, you can manipulate any aspect of an HTML Element, including it's CSS derived styles:
+			
+			<pre>
+var thediv = document.getElementById('mydiv');
+thediv.style.backgroundColor = "red";
+			</pre>
+								
+			<h4>More Information</h4>
+			
+			<p><a href="http://www.w3schools.com/js/js_htmldom.asp">JavaScript HTML DOM</a></p>		
+					
+			<h3>Events</h3>
+
+				<p>JavaScript in the browser is very often event driven. This means that we can specify code to run when an event takes place.  Some of these are driven by the browser doing it's thing such as loading a page and some are driven by user interaction such as clicking a link or hovering over an element.  Regardless of the type of event, we use the "addEventListener" method on all of the DOM elements to specify what to listen for and what code to run when the event is triggered.
+				
+				<pre>
+element.addEventListener('event name', functionToRun);
+
+functionToRun() {
+	// Code to execute
+}
+				</pre>
+				
+				<a href="http://www.w3schools.com/js/js_htmldom_eventlistener.asp">JavaScript HTML DOM EventListener</a></p>
+			
+				<h4>load</h4>
+				<p>The load event is very important as it is a way to specify what to do when a document is done loading, it also signifies when it is safe to call elements on the DOM:
+				
+				<pre>
+function init() {
+	var thediv = document.getElementById('mydiv');
+	alert(thediv.innerHTML);
+}				
+window.addEventListener('load', init);				
+				</pre>
+				
+				<h4>mouseover</h4>
+
+<pre>
+var thediv;
+function init() {
+	thediv = document.getElementById('mydiv');
+	thediv.addEventListener('mouseover', hideit);
+}			
+
+function hideit() {
+	thediv.style.visibility = "hidden";
+}	
+window.addEventListener('load', init);				
+</pre>
+				
+				<h4>Many many more</h4>
+				<p><a href="http://en.wikipedia.org/wiki/DOM_events">Wikipedia DOM Events</a></p>
+
+
+		<h2>Media Elements and the Canvas</h2>
+		
+				<p><a href="html5media.html">Audio and Video</a></p>
+				<p><a href="canvas.html">Canvas</a></p>			 		       
+		
+
+    </body>
+</html>
+

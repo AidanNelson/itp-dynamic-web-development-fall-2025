@@ -1,0 +1,293 @@
+
+<html>
+	<head>
+		<link rel="stylesheet" href="style.css" type="text/css">
+		<title>Cookies, Sessions, and Logins</title>
+	</head>
+	<body>
+		<h1>Cookies, Sessions, and Logins</h1>
+						
+		<h2>Cookies</h2>		
+		
+		<p>A cookie is a simple key/value pair that a website may stored with the user's browser.  It is a per-user capability.</p>
+		
+		<p>Have a look at what cookies are stored in your computer by viewing <a href="chrome://settings/cookies">chrome://settings/cookies</a> in Chrome.</p>
+		
+		<p>In Express we can set cookies using the <a href="https://expressjs.com/en/api.html#res.cookie">res.cookie function</a></p>
+		
+		<p>In order to use the cookies, we also need the <a href="https://github.com/expressjs/cookie-parser">Express cookie-parser</a></p>
+		
+		<pre>
+npm install cookie-parser		
+		</pre>
+
+		<p>Here is a quick example which counts visits to a site on a per user basis:
+		
+		<pre>
+var express = require('express');
+
+// Require cookie-parser
+var cookieParser = require('cookie-parser');
+
+var app = express();
+
+// Use the cookieParser middleware
+app.use(cookieParser());
+
+app.get('/', function (req, res) {
+	// Log the cookies on the server side
+	console.log(req.cookies);
+
+	// Variable per request to keep track of visits
+	var visits = 1;
+	
+	// If they have a "visits" cookie set, get the value and add 1 to it
+	if (req.cookies.visits) {
+		visits = Number(req.cookies.visits) + 1;
+	}
+	
+	// Set the new or updated cookie
+	res.cookie('visits', visits, {});
+	
+	// Send the info to the user
+	res.send("You have visited this site " + visits + " times.");
+});
+
+app.listen(8080);		
+		</pre>
+		
+		</p>
+		
+		<h2>Sessions</h2>
+
+		<p>Sessions take the idea of cookies one step further by giving application developers the ability to set a unique ID per user in a cookie and then keeping a database of those IDs and associating other information along with that on the server.</p>
+
+		<p>In order to use sessions, you need the <a href="https://github.com/expressjs/session">Express Session Middleware</a> which you install with 
+		
+		<pre>
+npm install express-session		
+		</pre>
+		</p>
+		
+		<p>Sessions by default are not persistent and the data get's destroyed when you restart the server.  The easiest way around this is to use something like the <a href="https://github.com/JamesMGreene/nedb-session-store">NeDB Session Store</a>
+		
+		<pre>
+npm install nedb-session-store
+		</pre>
+		</p>
+
+		<p>Here is a simple example:
+
+	<pre>
+var express = require('express');
+var app = express();
+var session = require('express-session');
+var nedbstore = require('nedb-session-store')(session);
+
+// https://github.com/kelektiv/node-uuid
+// npm install uuid
+const uuidV1 = require('uuid/v1');
+
+app.use(
+	session(
+		{
+			secret: 'secret',
+			cookie: {
+				 maxAge: 365 * 24 * 60 * 60 * 1000   // e.g. 1 year
+				},
+			store: new nedbstore({
+			 filename: 'sessions.db'
+			})
+		}
+	)
+);
+
+app.get('/', function(req, res) {
+  if (!req.session.userid) {
+  	req.session.userid = uuidV1();
+  }
+  
+  res.send('session user-id: ' + req.session.userid + '. ');
+});
+
+app.listen(8080);	
+	</pre>
+	
+		<!-- Tracking users through your site, what they visited, how long and so on -->
+	
+		</p>
+	
+		<h4>Mongo Data Store</h4>
+		
+		<a href="https://github.com/jdesboeufs/connect-mongo">Mongo Session Store</a>
+		
+<pre>
+var express = require('express');
+var app = express();
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
+
+const uuidV1 = require('uuid/v1');
+
+app.use(session({
+    store: new MongoStore({
+        url: 'mongodb://user12345:foobar@localhost/test-app'
+    })
+}));
+
+app.get('/', function(req, res) {
+  if (!req.session.userid) {
+  	req.session.userid = uuidV1();
+  }
+  
+  res.send('session user-id: ' + req.session.userid + '. ');
+});
+
+app.listen(8080);	
+</pre>
+		
+
+		<h2>User Logins</h2>
+						
+		<p>Now that we have tackled cookies and user sessions, let's turn our attention to developing a user registration and login system.</p>
+		
+		<p>The general idea is that we allow users to register, keep a table or collection of them in a database, and when they log in we create a session for them so that they stay logged in as they browse the site.</p>
+		
+		<p>A basic registration screen would be a form asking for the details we need for each user (registration.ejs):
+		<pre>
+&lt;html&gt;
+  &lt;body&gt;
+	&lt;form action="/register" method="POST"&gt;
+		Choose Username: &lt;input type="text" name="username"&gt;&lt;br /&gt;
+		Choose Password: &lt;input type="password" name="password"&gt;&lt;br /&gt;
+		&lt;input type="submit" name="submit" value="Submit"&gt;&lt;br /&gt;
+	&lt;/form&gt;		
+  &lt;/body&gt;
+&lt;/html&gt;
+		</pre>		
+		
+		this would post to a route on our server to save the user's information:
+		
+		<pre>
+app.post('/register', function(req, res) {
+	// We want to "hash" the password so that it isn't stored in clear text in the database
+	var passwordHash = generateHash(req.body.password);
+
+	// The information we want to store
+	var registration = {
+		"username": req.body.username,
+		"password": passwordHash
+	};
+
+	// Insert into the database
+	db.insert(registration);
+	console.log("inserted " + registration);
+	
+	// Give the user an option of what to do next
+	res.send("Registered <a href=\"/\">Sign In</a>" );
+	
+});		
+		</pre>
+		
+		In the above route, we are using a password hashing function that uses <a href="http://bcrypt.sourceforge.net/">bcrypt</a>.  In particular it is using this node module: <a href="https://www.npmjs.com/package/bcrypt-nodejs">bcrypt-nodejs</a>.  Here is the hash and the comparison function that we'll need:
+		
+		<pre>
+function generateHash(password) {
+	return bcrypt.hashSync(password);
+}
+
+function compareHash(password, hash) {
+    return bcrypt.compareSync(password, hash);
+}		
+		</pre>
+
+		After the user registration information is saved in the database we can offer a login form (login.ejs) and a corresponding route to check that their information is correct:
+		
+		<pre>
+&lt;html&gt;
+  &lt;body&gt;
+	&lt;form action="/login" method="POST"&gt;
+		Username: &lt;input type="text" name="username"&gt;&lt;br /&gt;
+		Password: &lt;input type="password" name="password"&gt;&lt;br /&gt;
+		&lt;input type="submit" name="submit" value="Submit"&gt;&lt;br /&gt;
+		&lt;a href="/registration"&gt;Not registered?&lt;/a&gt;			
+	&lt;/form&gt;		
+  &lt;/body&gt;
+&lt;/html&gt;		
+		</pre>
+
+		The route:
+		
+		<pre>
+// Post from login page
+app.post('/login', function(req, res) {
+
+	// Check username and password in database
+	db.findOne({"username": req.body.username},
+		function(err, doc) {
+			if (doc != null) {
+				
+				// Found user, check password				
+				if (compareHash(req.body.password, doc.password)) {				
+					// Set the session variable
+					req.session.username = doc.username;
+
+					// Put some other data in there
+					req.session.lastlogin = Date.now();
+
+					res.redirect('/');
+					
+				} else {
+
+					res.send("Invalid <a href=\"/\">Try again</a>");
+
+				}
+			} 
+		}
+	);
+	
+
+});		
+		</pre>
+		
+		The key to logging a user in is to create the session variable, in this case their username.  This session variable can then be checked on any page they visit to make sure they are logged in and if they aren't send them to the login page:
+
+		<pre>
+// Main page
+app.get('/', function(req, res) {
+	console.log(req.session.username);
+
+	if (!req.session.username) {
+		res.render('login.ejs', {}); 
+	} else {
+		// Give them the main page
+  		//res.send('session user-id: ' + req.session.userid + '. ');
+		res.render('main.ejs', req.session);
+	}
+});
+		</pre>
+
+		To log a user out, simply delete their session variable:
+		
+		<pre>
+app.get('/logout', function(req, res) {
+	delete req.session.username;
+	res.redirect('/');
+});		
+		</pre>
+		</p>
+		
+		<p><b>Here is a full example:<a href="express_login_example.zip">Express Login Example</a> (Don't forget to make this use <a href="https.html">HTTPS</a>) </b><br /></p>
+				
+		<h3>Other Login Systems</h3>
+		
+		<p>Doing a full login system can be quite a bit of work.  Fortunately, there are solutions that exist which make it easier.</p>  
+		
+		<p>On that is pretty popular is called <a href="http://passportjs.org/">Passport</a>.  Passport offers a <a href="https://github.com/jaredhanson/passport-local">"local" login system</a> (called a "strategy") with similar functionality to what we have created above.  It also offers a variety of other "strategies" for using the login functionality of single sign on services such as Twitter or Facebook.</p>		
+
+		<h4>Security</h4>
+		
+		Implementing usernames/passwords this way via regular HTTP is very insecure.  <a href="https.html">We should get started with HTTPS!</a>
+		
+    </body>
+</html>

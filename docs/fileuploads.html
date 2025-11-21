@@ -1,0 +1,49 @@
+
+<html>
+	<head>
+		<link rel="stylesheet" href="style.css" type="text/css">
+		<title>File Uploads</title>
+	</head>
+	<body>
+		
+		<h2>File Uploads</h2>
+
+		<p>Allowing users to upload files with Express is fairly straight forward using the <a href="https://github.com/expressjs/multer">multer</a> node module:
+
+		<pre>
+npm install multer
+		</pre>
+		
+		In your server, you'll need to require multer and then create an instance of it specifying any options such as where to store the files (in the code below, called "upload"):		
+		
+		<pre>
+var multer  = require('multer')
+var upload = multer({ dest: 'uploads/' })
+		</pre>
+		
+		Then in any of your routes that you expect a file to be uploaded, you pass in "upload" and tell it what to expect.  In this case, a single file that is named "photo" on the form:
+
+		<pre>
+app.post('/upload', upload.single('photo'), function (req, res) {
+	console.log(req.file);
+	res.send("uploaded: " + req.file);
+	// req.file is the uploaded file information
+  	// req.body will hold the other text fields
+});
+		</pre>
+
+		Doing file uploads in HTML requires using a bit of a different "form" tag, in particular a tag that specifies an "enctype" or encoding type of "multipart/form-data".  Here is an example:
+
+		<pre>	
+&lt;html&gt;
+  &lt;body&gt;
+    &lt;form method="POST" action="/upload" enctype="multipart/form-data"&gt;
+    	&lt;input type="file" name="photo"&gt;
+      &lt;input type="submit" name="submitbutton" value="Submit" /&gt;
+    &lt;/form&gt;
+  &lt;/body&gt;
+&lt;/head&gt;
+		</pre>
+		
+    </body>
+</html>

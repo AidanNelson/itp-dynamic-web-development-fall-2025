@@ -1,0 +1,25 @@
+
+<html>
+	<head>
+		<link rel="stylesheet" href="style.css" type="text/css">
+		<title>NPM</title>
+	</head>
+	<body>
+		<h1>Creating Node Packages</h1>
+				
+		<p>
+			NPM is the node package manager (being extended to JavaScript in general).  
+			It is the common way to install any node package which enhances the functionality of node. 
+		</p>
+
+		<p>
+			So far we have been using NPM to install packages we need to build our projects but we can also build our own packages to make our work easier.	
+			In particular, it used to package up our work to make it portable:
+
+			<pre>npm init</pre> (Creates package.json)
+			<pre>npm install express --save</pre> (Adds express to package.json dependencies so that it is installed when the package is installed.)
+			Add: <pre>"scripts": { "start": "node server.js" }</pre> to package.json to tell it to start the server when we type "npm start"
+		</p>		
+		
+    </body>
+</html>

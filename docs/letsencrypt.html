@@ -1,0 +1,41 @@
+
+<html>
+	<head>
+		<link rel="stylesheet" href="style.css" type="text/css">
+		<title>Let's Encrypt with Express</title>
+	</head>
+	<body>
+		<h1>Let's Encrypt with Express</h1>
+				
+		<p><a href="https://letsencrypt.org/">Let’s Encrypt</a> is a service supported by a slew of companies and organizations including Mozilla and EFF which offers free certificates for use with HTTPS (SSL/TLS)</p>
+
+		<p><a href="https://certbot.eff.org/#ubuntutyakkety-other">Certbot</a> is a tool that we can use to interact with Let’s Encrypt:</p>
+
+		<p>Of course, to implement HTTPS, you'll want to have a domain name pointing to your server and then generate a certificate for that domain.</p>
+
+		<p>With Let's Encrypt we have to verify that we control the domain by running a server and issuing the certbot command.	
+		For instance if I had dwd.walking-production.com pointing to my server, I would run a basic webserver with a "public" directory on port 80 (perhaps using the npm module http-server with the command: <i>http-server -p 80</i>) and then I would issue the command like this:</p>
+
+		<pre>
+certbot certonly --webroot -w /path/to/server/root/public -d domain.name
+		</pre>		
+		
+		<p>Using this with a real server and domain it would look like this:</p>
+		
+		<pre>
+certbot certonly --webroot -w /root/public -d dwd.walking-productions.com
+		</pre>		
+				
+		<p>which would generate the private key and certificate here in /etc/letsencrypt/live/domain.name</p>
+		
+		<p>I can then use those files to run my secure server in the same manner as any other certificates.</p>
+		
+<pre>
+var credentials = {
+  key: fs.readFileSync('/etc/letsencrypt/live/domain.name/privkey.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/domain.name/cert.pem')
+};
+</pre>
+		
+    </body>
+</html>

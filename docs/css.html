@@ -1,0 +1,137 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="style.css" type="text/css">
+		<title>CSS Basics</title>
+	</head>
+	<body>
+		<h1>CSS Basics</h1>
+		
+		<p>CSS stands for Cascading Style Sheets and are one of the 3 main components of a modern web page (HTML and JavaScript being the others).  
+		CSS is used to specify colors, positions, fonts, and other visual design of a web page.</p>
+		
+		<h3>Including CSS</h3>
+		
+		<p>CSS can be included in HTML in 3 different ways:
+			<li>Inside a tag:
+<pre>
+&lt;div style="color: red; font-size: 100px"&gt;Big Red&lt;/div&gt;		
+</pre>
+			<li>In the HTML, typically in the "head" separate from in a tag:
+<pre>
+&lt;style&gt;
+div {
+	color: red; 
+	font-size: 100px
+}
+&lt;/style&gt;
+</pre>			
+			<li>Or in a separate document and linked to in the head with the following tag:
+<pre>
+&lt;link rel="stylesheet" href="style.css" type="text/css"&gt;
+</pre>			
+				
+		<h3>Style Definitions</h3>
+		
+		<p>Styles can apply to entire tags such as all "div" tags:
+<pre>
+&lt;style&gt;
+div {
+	color: red; 
+	font-size: 100px
+}
+&lt;/style&gt;
+
+&lt;div&gt;Hi&lt;/div&gt;
+</pre>
+		or only to tags with a specific "class":
+<pre>
+&lt;style&gt;
+.bigred {
+	color: red; 
+	font-size: 100px
+}
+&lt;/style&gt;
+
+&lt;div class="bigred"&gt;Hi&lt;/div&gt;
+</pre>
+	or to only a tag with a specific ID:
+<pre>
+&lt;style&gt;
+#bigred {
+	color: red; 
+	font-size: 100px
+}
+&lt;/style&gt;
+
+&lt;div id="bigred"&gt;Hi&lt;/div&gt;
+</pre>	
+
+</p>				
+				
+			<h3>Working with type</h3>
+			
+				<p>
+					CSS has a rich support for type or text formatting.  Here are a few of the capabilities:
+					<br /><br />
+					<p><a href="http://www.w3schools.com/cssref/pr_font_font-family.asp" style="font-family: Times, serif">font-family: Times, serif;</a> - <a href="http://www.w3schools.com/cssref/css_websafe_fonts.asp">Web Safe Fonts</a></p>
+					<p><a href="http://www.w3schools.com/cssref/pr_font_font-size.asp" style="font-size: 20px;">font-size: 20px;</a></p>
+					<p><a href="http://www.w3schools.com/cssref/pr_font_weight.asp" style="font-weight: bold;">font-weight: bold;</a></p>
+					<p><a href="http://www.w3schools.com/cssref/pr_font_font-style.asp" style="font-style: italic;">font-style: italic;</a></p>
+					<p><a href="http://www.w3schools.com/cssref/default.asp#text">More</a></p>
+				
+				</p>
+			
+			<h3>Positioning</h3>
+			
+				<p>
+					Elements can be positioned in a number of ways in CSS.
+					<div style="border: 2px solid #888888; height: 70px;">Relative positioning moves the relative to where it would normally be:
+					
+						<div style="position: relative; top: 25px; left: 25px; border: 1px solid #888888;">position: relative; top: 25px; left: 25px;</div>
+					
+					</div>
+					<div style="border: 1px solid #888888; height: 70px;">Absolute positioning moves the element to a specific position relative to it's container:
+					
+						<div style="position: absolute; top 10px; left: 10px; border: 1px solid #888888;">position: absolute; top 10px; left: 10px;</div>
+					
+					</div>
+					
+				</p>
+			
+			<h3>Grid Layouts</h3>
+
+			<p>A class of CSS layouts has appeared called grids.  These are starting points for grid based layouts and easier to use that building from scratch.  One of the most well known is the <a href="http://960.gs/">960 Grid</a> which is a 960 pixel wide grid based layout.</p>
+			
+			<p>To use it, you download and included it on your page:
+			
+			<pre>
+&lt;link rel="stylesheet" type="text/css" href="960_12_col.css" /&gt;			
+			</pre>
+			
+			The above version is the 12 column version.
+			</p>
+			
+			<p>You specify in your block elements how many columns they should occupy in any given row:
+			
+			<pre>
+&lt;div class="container_12 clearfix"&gt;
+	&lt;div class="grid_12"&gt;All 12 Columns&lt;/div&gt;			
+	&lt;div class="grid_4"&gt;4 Columns&lt;/div&gt;		
+	&lt;div class="grid_3"&gt;3 Columns&lt;/div&gt;			
+&lt;/div&gt;			
+			</pre>
+			</p>
+<div class="container_12 clearfix">
+	<div class="grid_12" style="border: 1px solid #444444;">All 12 Columns</div>			
+	<div class="grid_4" style="border: 1px solid #444444;">4 Columns</div>		
+	<div class="grid_3" style="border: 1px solid #444444;">3 Columns</div>				
+</div>
+
+			<h3>More Information</h3>
+			
+			<p><a href="http://www.htmlandcssbook.com/">HTML &amp; CSS</a> by Jon Duckett is a fantastic book that takes you through a lot of how to work with HTML and CSS to make sites look the way you want.  I highly recommend it.</p>
+
+
+    </body>
+</html>
+

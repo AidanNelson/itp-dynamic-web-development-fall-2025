@@ -1,0 +1,218 @@
+
+<html>
+	<head>
+		<link rel="stylesheet" href="style.css" type="text/css">
+		<title>AJAX with JQuery, Using Web Services</title>
+	</head>
+	<body>
+		<h1>AJAX with JQuery, Using Web Services</h1>
+		
+		<h2>Single Page Applications</h2>
+		
+		A <a href="https://en.wikipedia.org/wiki/Single-page_application">Single Page Application</a> is a website that behaves more like a desktop application than a traditional web application where you go from page to page.  One prime example of this might be GMail where you don't have to leave the page to send a message or read new messages.  It all functions in one browser location with the data being delivered behind the scenes.
+		
+		<h3>Web Services</h3>		
+		
+		Web Services, where a server makes data available in a machine readable format (rather than formatted for human consumption) for loading by an application or script are one of the keys to making Single Page Applications a reality.
+		
+		<h4>JSON</h4>
+
+		<p><a href="http://json.org/">JSON stands for JavaScript Object Notation</a>.  It has become a standard way to provide machine readable data to and from web services.  Despite the fact that JavaScript is part of it's title, it is generally useful in all programming languages.</p>
+		
+		<p>As stated on the json.org site: <i>An object is an unordered set of name/value pairs. An object begins with { (left brace) and ends with } (right brace). Each name is followed by : (colon) and the name/value pairs are separated by , (comma).</i></p>
+
+		A simple JSON object
+		<pre>
+{
+	"first_name": "Shawn",
+	"last_name": "Van Every"
+}		
+		</pre>
+		
+		An array of JSON objects
+		<pre>
+[
+{
+	"first_name": "Shawn",
+	"last_name": "Van Every"
+},
+{
+	"first_name": "Joe",
+	"last_name": "Frank"
+}		
+]		</pre>
+
+		values can be string, number, null or boolean (true/false)<br /><br />  
+
+		<h4>Sample Web Service with JSON</h4>
+		         
+		<p>One JSON data feed that might be interesting is from <a href="http://openweathermap.org/">OpenWeatherMap</a>.  Their API is documented <a href="http://api.openweathermap.org/api">here</a>. </p>
+		
+		<p>This is the feed for New York City's data: <a href="http://api.openweathermap.org/data/2.5/weather?id=5128581&units=imperial">http://api.openweathermap.org/data/2.5/weather?id=5128581&units=imperial</a> which yields the following: 
+		<pre>
+{"coord":{"lon":-74.005966,"lat":40.714272},"sys":{"country":"US","sunrise":1380106043,"sunset":1380149242},"weather":[{"id":800,"main":"Clear","description":"Sky is Clear","icon":"01n"}],"base":"gdps stations","main":{"temp":60.44,"pressure":1013,"temp_min":54,"temp_max":66.2,"humidity":88},"wind":{"speed":2.22,"gust":3.08,"deg":285},"rain":{"3h":0},"clouds":{"all":0},"dt":1380076310,"id":5128581,"name":"New York","cod":200}
+		</pre></p>
+				
+		<p>We can make this JSON easier to read by doing some formatting: <a href="http://jsonformatter.curiousconcept.com/">http://jsonformatter.curiousconcept.com/</a></pre>
+	
+		<p>After formatting we get the following:	
+		<pre>
+{
+   "coord":{
+      "lon":-74.005966,
+      "lat":40.714272
+   },
+   "sys":{
+      "country":"US",
+      "sunrise":1380106043,
+      "sunset":1380149242
+   },
+   "weather":[
+      {
+         "id":800,
+         "main":"Clear",
+         "description":"Sky is Clear",
+         "icon":"01n"
+      }
+   ],
+   "base":"gdps stations",
+   "main":{
+      "temp":60.44,
+      "pressure":1013,
+      "temp_min":54,
+      "temp_max":66.2,
+      "humidity":88
+   },
+   "wind":{
+      "speed":2.22,
+      "gust":3.08,
+      "deg":285
+   },
+   "rain":{
+      "3h":0
+   },
+   "clouds":{
+      "all":0
+   },
+   "dt":1380076310,
+   "id":5128581,
+   "name":"New York",
+   "cod":200
+}
+		</pre></p>
+		
+		<p>We see a lot of what we might expect, temp, pressure, humidity and so on.  Also of interest is the sunrise and sunset time.  These are particularly interesting because they are represented in standard "unix timestamp" which is the number of seconds from January 1, 1970.  <a href="http://www.epochconverter.com/">http://www.epochconverter.com/</a> - Command line: date "+%s"</p> 
+		
+		<p>To pull a value out of this JSON structure, we simply treat it like it is a javascript object and use dot syntax to traverse through the structure.  To get the current temperature, we use the top level object and keep going down, theObject.main.temp should contain the current temperature.
+		
+		<pre>
+		
+			var theObject = {
+			   "coord":{
+				  "lon":-74.005966,
+				  "lat":40.714272
+			   },
+			   "sys":{
+				  "country":"US",
+				  "sunrise":1380106043,
+				  "sunset":1380149242
+			   },
+			   "weather":[
+				  {
+					 "id":800,
+					 "main":"Clear",
+					 "description":"Sky is Clear",
+					 "icon":"01n"
+				  }
+			   ],
+			   "base":"gdps stations",
+			   "main":{
+				  "temp":60.44,
+				  "pressure":1013,
+				  "temp_min":54,
+				  "temp_max":66.2,
+				  "humidity":88
+			   },
+			   "wind":{
+				  "speed":2.22,
+				  "gust":3.08,
+				  "deg":285
+			   },
+			   "rain":{
+				  "3h":0
+			   },
+			   "clouds":{
+				  "all":0
+			   },
+			   "dt":1380076310,
+			   "id":5128581,
+			   "name":"New York",
+			   "cod":200
+			};
+			
+			console.log("Temperature is: " + theObject.main.temp);
+		
+		</pre>
+		</p>
+		
+	    <h3>AJAX</h3>
+
+		AJAX (Aysnchronous JavaScript and XML) is a technique for dynamically loading data and altering a page after communicating with a server and without leaving the page.  In other words, AJAX is what makes it all possible to develop Single Page Applications.
+		<br /><br />
+		It is made possible by the <a href="http://www.w3schools.com/XML/xml_http.asp">XMLHttpRequest</a> object
+
+		<p>Unfortunately, there are quite a few security restrictions on making AJAX requests across domains.  If you are interested in investigating those and how to overcome them, checkout this:
+		<a href="http://www.html5rocks.com/en/tutorials/cors/">http://www.html5rocks.com/en/tutorials/cors/</a>.
+		</p>
+		
+		<p>
+		Fortunately, there are a few libraries such as jQuery that take much of the pain away.
+		</p>		         
+		
+		<b>More Information: </b><a href="http://www.aaronsw.com/weblog/ajaxhistory">A Brief History of Ajax by Aaron Swartz</a><br />
+        	
+    	<h3>Using jQuery's AJAX functions to load JSON</h3>
+
+<p>You can load and parse JSON easily using jQuery.</p>
+
+		<pre>		
+&lt;script src="//code.jquery.com/jquery-1.11.2.min.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+	$(document).ready(function(){
+		$.ajax({
+		  url: "http://api.openweathermap.org/data/2.5/weather?id=5128581&units=imperial",
+		  dataType: 'json',
+		  success: function(data) {
+			alert("Temperature is: " + data.main.temp );
+		  },
+		  error: function() {
+			alert("error");
+		  }
+		});        
+	});
+&lt;/script&gt;
+		</pre>
+		
+		<h3>Building simple Webservices using Node and Express</h3>
+		
+		<p>As you may have seen in previous notes, we can easily send back JSON formatted data rather than HTML from our Node/Express servers.  Here is an example which takes data from a database query which simply sends the JSON from the database back:
+		
+		<pre>
+app.get('/display', function(req, res) {
+  db.thesubmissions.find({}, function(err, saved) {
+    if (err || !saved) {
+    	console.log("No results");
+    }
+    else {
+      console.log(saved);
+      res.send(saved);
+  	}
+  });
+});
+		</pre>
+		
+		Doing this is building a simple webservice.  Accessing our servers via AJAX using the techniques presented above allows us to utilize our servers from the front-end and build single page applications.
+
+		</p>
+    </body>
+</html>

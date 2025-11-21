@@ -1,0 +1,114 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="style.css" type="text/css">
+		<title>Comm Lab Networked Media : Canvas : Example 2</title>
+	</head>
+	<body>
+		<h1>HTML 5 Canvas Example 2 - "draw" loop with mouse interaction</h1>
+				
+		<pre>
+&lt;canvas width="600" height="600" id="mycanvas" /&gt;
+
+&lt;script type="text/javascript"&gt;
+
+	var canvas = document.getElementById('mycanvas');
+	var context = canvas.getContext('2d');
+	
+	var x = 0;
+	var y = 0;
+	var draw = function() {
+		context.beginPath();
+	
+		// This is silly but it's what we have to do to get a random hex string
+		context.strokeStyle='#'+(Math.random()*0xFFFFFF<<0).toString(16);
+	
+		context.moveTo(x,y);
+		context.lineTo(canvas.width/2,canvas.height/2);
+		context.stroke();
+		x++;
+		if (x &gt; canvas.width) { x = 0; }
+	};
+
+		var animationLooper = function() {
+
+				reqAnimFrame = window.mozRequestAnimationFrame    ||
+							   window.webkitRequestAnimationFrame ||
+							   window.msRequestAnimationFrame     ||
+							   window.onRequestAnimationFrame
+							   ;
+
+				reqAnimFrame(animationLooper);
+
+				draw();
+			}
+	
+			window.addEventListener('load', animationLooper);
+
+	canvas.addEventListener('mousemove', function(evt) {
+		//evt.clientX is x but in the entire window, not the canvas
+		//evt.clientY is y
+		
+		// Get the canvas bounding rect
+		var canvasRect = canvas.getBoundingClientRect(); 
+
+		// Now calculate the mouse position values
+		y = evt.clientY - canvasRect.top; // minus the starting point of the canvas rect
+		// x = evt.clientX - rect.left;  // minus the starting point of the canvas rect on the x axis
+	}, false);
+	
+&lt;/script&gt;
+		</pre>		
+
+		<canvas width="600" height="600" id="mycanvas"  />
+		
+		<script type="text/javascript">
+
+			var canvas = document.getElementById('mycanvas');
+			var context = canvas.getContext('2d');
+			
+			var x = 0;
+			var y = 0;
+			var draw = function() {
+				context.beginPath();
+			
+				// This is silly but it's what we have to do to get a random hex string
+				context.strokeStyle='#'+(Math.random()*0xFFFFFF<<0).toString(16);
+			
+				context.moveTo(x,y);
+				context.lineTo(canvas.width/2,canvas.height/2);
+				context.stroke();
+				x++;
+				if (x > canvas.width) { x = 0; }
+			};
+			
+			var animationLooper = function() {
+
+				reqAnimFrame = window.mozRequestAnimationFrame    ||
+							   window.webkitRequestAnimationFrame ||
+							   window.msRequestAnimationFrame     ||
+							   window.onRequestAnimationFrame
+							   ;
+
+				reqAnimFrame(animationLooper);
+
+				draw();
+			}
+	
+			window.addEventListener('load', animationLooper);
+	
+			canvas.addEventListener('mousemove', function(evt) {
+				//evt.clientX is x but in the entire window, not the canvas
+				//evt.clientY is y
+				
+				// Get the canvas bounding rect
+				var canvasRect = canvas.getBoundingClientRect(); 
+
+				// Now calculate the mouse position values
+				y = evt.clientY - canvasRect.top; // minus the starting point of the canvas rect
+				// x = evt.clientX - rect.left;  // minus the starting point of the canvas rect on the x axis
+      		}, false);
+      			
+		</script>
+		
+        </body>
+</html>

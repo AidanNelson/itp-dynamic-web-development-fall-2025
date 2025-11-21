@@ -1,0 +1,53 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="style.css" type="text/css">
+		<title>Comm Lab Networked Media : Canvas</title>
+	</head>
+	<body>
+		<h1>HTML 5 Canvas</h1>
+				
+		<p>HTML 5 introduced support for a canvas element that can be programmatically drawn on.  The really nice thing is that it is very similar to drawing using Processing (in fact, p5.js relies heavily upon the canvas element).</p>
+
+		<h2>Basic Usage Example</h2>
+		
+		<div>
+			<pre>
+&lt;canvas width="600" height="600" id="mycanvas" /&gt;
+
+&lt;script type="text/javascript"&gt;
+	var canvas = document.getElementById('mycanvas');
+	var context = canvas.getContext('2d');
+	context.fillStyle="#FF0000";
+	context.fillRect(0,0,canvas.width,canvas.height);
+&lt;/script&gt;		
+			</pre>
+		
+			<canvas width="300" height="300" id="mycanvas" />
+		
+			<script type="text/javascript">
+				// Using normal DOM methods, get a reference to the canvas object
+				var canvas = document.getElementById('mycanvas');
+				// Get a context to draw upon
+				var context = canvas.getContext('2d');
+				
+				// Set the fill color
+				context.fillStyle="#FF0000";
+				
+				// Fill the canvas with that color, use the height and width values of the canvas object
+				context.fillRect(0,0,canvas.width,canvas.height);
+			</script>
+		</div>
+		
+		<p>		
+			Example: <a href="canvas_example1.html">Canvas with a "draw" loop</a> (Uses <a href="http://www.w3schools.com/js/js_timing.asp">JavaScript setInterval</a>)<br />
+			Example: <a href="canvas_example1_1.html">Canvas with a "draw" loop</a> (Uses <a href="http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/">requestAnimationFrame</a>)<br />
+			Example: <a href="canvas_example2.html">Canvas with "draw" loop and mouse interaction</a><br />
+		</p>
+		
+		<p>
+			Reference: <a href="http://www.w3schools.com/html/html5_canvas.asp">W3 Schools - HTML5 Canvas</a> and <a href="http://www.w3schools.com/tags/ref_canvas.asp">W3 Schools - HTML Canvas Reference</a><br />
+			Tutorial: <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Canvas_tutorial?redirectlocale=en-US&redirectslug=Canvas_tutorial">Mozilla Developer Network - Canvas Tutorial</a><br />
+	        Examples: <a href="http://net.tutsplus.com/articles/web-roundups/21-ridiculously-impressive-html5-canvas-experiments/">21 Ridiculously Impressive HTML5 Canvas Experiments</a><br />
+	    </p>
+    </body>
+</html>

@@ -1,0 +1,247 @@
+
+<html>
+	<head>
+		<link rel="stylesheet" href="style.css" type="text/css">
+		<title>Basic Web Servers with Node and Express</title>
+	</head>
+	<body>
+		<h1>Basic Web Servers with Node and Express</h1>
+		
+		<h2>NPM</h2>
+		
+		<p>npm is the node package manager.  
+		It is the common way to install any node package which add to the base functionality of node. 
+		</p>
+		<p><a href="https://www.npmjs.com">Search for Packages</a> and install:
+
+		<pre>npm install package_name</pre>
+		</p>
+		
+		<h2>Express</h2>
+		
+		<p>Express is a framework for making HTTP servers with node.</p>
+		
+		<p>To install Express you use npm in the directory that will contain your project:
+		
+			<pre>npm install express</pre>
+		
+		</p>
+		
+		<h3>Routes</h3>
+		
+		<p>A "route" defines how a webserver responds to a specific request based on the request's "path"</p>
+
+		<p>Here is a basic Express server which responds with "Hello World" when the client requests the path "/":
+<pre>
+var express = require('express')
+var app = express()
+
+app.get('/', function (req, res) {
+  res.send('Hello World!')
+})
+
+app.listen(3000, function () {
+  console.log('Example app listening on port 3000!')
+})
+</pre>
+
+<i>http://IP:3000/</i>
+
+		</p>
+		<p>Of course a route can be for any "path", here is an example for "/somethingelse":
+<pre>
+app.get('/somethingelse', function (req, res) {
+  res.send('Hello World!');
+});
+</pre>
+		</p>
+		
+		<p>More information: <br />
+		<a href="https://expressjs.com/en/guide/routing.html">Express Routing Guide</a>
+		</p>
+
+		<h3>Static files</h3>
+		
+		<p>Express can be configured to serve static files as well as dynamic routes.  In this example any file in the "public" directory will be served if it's name is requested:
+<pre>
+app.use(express.static('public'));
+</pre>
+		</p>
+		
+		<h3>Dynamic files</h3>
+		
+		<p>If you would like to dynamically serve a file based upon a request to a "route" you can use the "sendFile" function:
+		
+<pre>
+app.get('/randomfile', function (req, res) {
+	var fileToSend = "somerandomfile.txt";
+	res.sendfile(fileToSend, {root: './public'}); // Files inside "public" folder
+});
+</pre>
+		
+		<h2>HTML Forms</h2>
+		
+		Forms allow the page to take input from a user and send it to a server for processing.  Also, using JavaScript the page can be made responsive or interactive by respond to form related data or events.
+        <br /><br />
+        Putting a form on a page is as simple as using the various form tags <i>nested</i> within a &lt;form&gt; element.
+        <br /><br />
+<pre>
+	&lt;form&gt;
+	
+	&lt;/form&gt;
+</pre>
+        
+        <h3>Form Elements</h3>
+
+			<h4>Input</h4>
+			
+			There is an entire class of input type form elements
+			
+        	<b>Text Field</b>:<br />
+        	<input type="text" name="textfield" value="The Value" /><br />
+        	<pre>&lt;input type="text" name="textfield" value="The Value" /&gt;</pre>
+        	Allows text to be entered.  The "value" attribute can be used to specify a default value.
+        	<br /><br />
+
+        	<b>Hidden Field</b>:<br />
+        	<input type="hidden" name="hiddenfield" value="The Value" /><br />
+        	<pre>&lt;input type="hidden" name="hiddenfield" value="The Value" /&gt;</pre>>
+        	Allows a value to be in the form but not displayed to the user.  The "value" attribute specifies the value.
+        	<br /><br />
+
+			<b>Button</b>:<br />
+			<input type="button" name="pushbutton" value="Button" /><br />
+			<pre>&lt;input type="button" name="pushbutton" value="Button" /&gt;</pre>
+			Button that can be pressed by the user.  The "value" attribute is what displays on the page.  Generally this is used to trigger an event that will call some JavaScript.
+			<br /><br />
+			
+			<b>Submit</b>:<br />
+			<input type="submit" name="submitbutton" value="Submit" /><br />
+			<pre>&lt;input type="submit" name="submitbutton" value="Submit" /&gt;</pre>
+			A button that is used to submit the form to the server.  The "value" attribute is what display inside the button.
+			<br /><br />
+			
+			<b>Reset</b>:<br />
+			<input type="reset" name="resetbutton" value="Reset" /><br />
+			<pre>&lt;input type="reset" name="resetbutton" value="Reset" /&gt;</pre>
+			A button that is used to reset the form to the state it was when loaded.  The "value" attribute is what display inside the button.
+			<br /><br />
+			
+			<b>Radio Buttons</b>:<br />
+			Radio 1: <input type="radio" name="radiobutton" value="Radio 1" /><br />
+			Radio 2: <input type="radio" name="radiobutton" value="Radio 2" /><br />
+			<pre>
+&lt;input type="radio" name="radiobutton" value="Radio 1" /&gt;
+&lt;input type="radio" name="radiobutton" value="Radio 2" /&gt;</pre>
+			
+			A series of radio buttons that allow the user to choose between a series of options.  Each one has the same "name" attribute but a different "value" attribute.  
+			<br /><br />
+			
+			<b>Select List</b>:<br />
+			<select name="selectlist">
+				<option value="option1">Option 1</option>
+				<option value="option2">Option 2</option>
+			</select>
+			<br />
+			<pre>
+&lt;select name="selectlist"&gt;
+	&lt;option value="option1"&gt;Option 1&lt;/option&gt;
+	&lt;option value="option2"&gt;Option 2&lt;/option&gt;
+&lt;/select&gt;
+			</pre>
+			A drop down list of options that allows the user to select one.  Multiple selections can be enabled by adding the keyword "multiple" in the "select" tag.			
+			<br /><br />			
+			
+			<h4>HTML 5 Input Elements</h4>
+			
+			With HTML 5 came a whole new set of input elements
+			
+			<b>Color</b>:<br />
+			<input type="color" name="somecolor" id="color"><br />
+			<pre>&lt;input type="color" name="somecolor"&gt;</pre>
+			Allows the user to select a color using a standard color picker.
+			<br /><br />
+			
+			<b>Range</b>:<br />
+			<input type="range" name="arange" min="0" max="10" id="range"><br />
+			<pre>&lt;input type="range" name="arange" min="0" max="10"&gt;</pre>
+			Allows the user to input a possible range of values.
+			<br /><br />
+			
+			and a whole bunch more:
+			<a href="http://www.w3schools.com/html/html5_form_input_types.asp">HTML5 Input Types</a>
+						
+			<h3>Sending Data</h3>
+			
+			<p>In order for a form to submit information to a server for processing, we need to use the "action" and "method" attributes.</p>
+
+			<h4>method="POST"</h4>
+			
+			<p>Using method="POST" on a form sends the data along with the request to the server behind the scenes (with the HTTP headers) and isn't visible to the user so it can't be book marked or otherwise saved.  It might be a bit more private in this manner.</p>
+			
+			<h4>method="GET"</h4>			
+			
+			<p>Using method="GET" on a form sends the data "url encoded" as a query string to the server which displays on the URL.  You would want to use this for search results that are to be shared or bookmarked for later retrieval.</p>
+			
+			<h4>action</h4>
+			
+			<p>The "action" attribute is where to send the form data when the submit button is pressed.</p>
+
+<pre>
+&lt;form method="GET" action="/processit"&gt;
+	&lt;input type="text" name="textfield" value="The Value" /&gt;<br />
+	&lt;input type="submit" name="submitbutton" value="Submit" /&gt;<br />
+&lt;/form&gt;
+</pre>			
+
+			<h2>Receiving Data</h2>
+
+			<p>Express receives the data from the form as part of the request.  You have to make a "route" for "post" if the method is post or "get" if the method is get.
+
+			<h3>POST route</h3>
+			
+			<p>First we need to install a piece of "middleware" to work with POST data in Express.  The <a href="https://github.com/expressjs/body-parser">body-parser</a> will take care of parsing the post as it comes in making the variables available to us in the the "route":
+			
+<pre>
+npm install body-parser
+</pre>			
+
+			at the top of our server.js we need to add these lines (after "var app = express()")
+			
+<pre>
+var bodyParser = require('body-parser');
+var urlencodedParser = bodyParser.urlencoded({ extended: true }); // for parsing form data
+app.use(urlencodedParser); 
+</pre>		
+		
+			</p>
+			
+			<p>Now, each "name" from the form elements will come in as part of the req.body object.
+			
+			<pre>
+app.post('/processit', function(req, res) {
+    var textvalue = req.body.textfield;
+
+    res.send("You submitted: " + textvalue);
+});			
+			</pre>
+			</p>
+			
+<!-- Put into array (in memory) -->
+
+			<h3>GET Route</h3>
+
+			<p>If a form is submitted with a method="GET" the data will come in on the query string and can be parsed as follows:
+			
+			<pre>
+app.get('/processit', function(req, res) {
+    var textvalue = req.query.textfield;
+
+    res.send("You submitted: " + textvalue);
+});			
+			</pre>
+<!-- Express get route to display -->
+
+			
+    </body>
+</html>

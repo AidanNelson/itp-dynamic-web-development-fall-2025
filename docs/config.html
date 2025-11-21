@@ -1,0 +1,44 @@
+
+<html>
+	<head>
+		<link rel="stylesheet" href="style.css" type="text/css">
+		<title>config.js files Node</title>
+	</head>
+	<body>
+		<h1>config.js files with Node</h1>
+		
+	            	
+		<p>
+		When you are publishing source code on platforms such as GitHub you want to be extra sure to be vigilant about security.  One mistake that people make is to publish source code that includes usernames, passwords, keys, and other sensitive data which can quickly become problematic.	
+		</p>
+
+		<p>
+		One way to avoid doing this is to use an external file which contains your sensitive data and not include that in any repositories (don't add it to your project in git).
+		</p>
+
+		<p>
+		Here is such a file called config.js
+<pre>
+var config = {
+	username: “username”,
+	password: “password
+}
+
+module.exports = config
+</pre>
+	
+		You can include this file in any node script with require:
+		
+<pre>
+var config = require('./config.js');
+</pre>
+
+		and then use the data defined in it where you need in your source code:
+<pre>
+someFunctionThatRequiresPassword(config.username, config.password);
+</pre>
+
+		</p>
+
+    </body>
+</html>

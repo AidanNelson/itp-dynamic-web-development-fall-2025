@@ -1,0 +1,101 @@
+<h1>DWD : Node.js, Digital Ocean VPS, Basic HTTP Server</h1>
+				
+		<h2>Node.js</h2>
+
+		<p>JavaScript (ECMAScript) engine for building server side apps <br/>
+		<a href="https://web.archive.org/web/20210413133031/http://nodejs.org/">http://nodejs.org/</a><br/>
+		<a href="https://web.archive.org/web/20210413133031/https://developers.google.com/v8/">Uses V8</a></p>
+		
+		<p><b>Event/Callback driven</b> - A callback function is registered for a specific event.  When that event occurs the callback method is run.</p>		
+		
+		<h3>A public server</h3>
+	
+		<p>In order to run node servers that are accessible to others via the internet, we'll need somewhere to host it.  At the moment, the easiest way to run a Node.js server is to use a company such as <a href="https://web.archive.org/web/20210413133031/https://www.digitalocean.com/">Digital Ocean</a> which provides Virtual Private Servers.  Digital Ocean has a few things going for them, first is the <a href="https://web.archive.org/web/20210413133031/https://www.digitalocean.com/pricing/">cost</a>, second is the fact that you can get one running with Node.js already installed very quickly.</p>
+		
+		<p>In order to get started, you'll need to create an account with Digital Ocean.</p>
+		
+		<p>After that, you can go ahead and create a "droplet".  A "droplet" is Digital Ocean's term for a VPS.  After coming up with a hostname, I would choose the smallest size, an appropriate region (one close to you, perhaps), and then in "Select image" go to the second tab, "One-click apps" and choose "Node x.x.x on x.x" (the version numbers change), choose the $5/mo size, and click "Create" at the bottom.</p>
+		
+		<h3>The Command line</h3>
+		
+		<p>Digital Ocean will email you a password to use with the default "root" account.  In order to do anything, you first have to login to the newly created server via the command line to change your password.  To do so, open up Terminal on your Mac (or use <a href="https://web.archive.org/web/20210413133031/http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">PuTTY</a> if you are on a PC).  To connect on from the Terminal app on the Mac, you type the following:
+
+		<pre>
+ssh root@ip_address
+		</pre>
+		
+		(The "ip_address" is in the email you get from Digital Ocean.)  You will be prompted to enter the password (which is also from the email) and then prompted to enter it again to change it.  Go ahead and change it to something you will remember but sufficiently complex that it will be difficult for hackers.</p>
+
+		<p>
+		If you don't have Node preinstalled (you should if you choose it as a "one-click app") on your server, you'll need to go through the following steps:
+		<pre>
+apt-get update
+apt-get install nodejs
+apt-get install nodejs-legacy
+apt-get install npm
+		</pre>
+		</p>
+		
+		<p>Once you have done that, we can move on although it is probably a good idea to keep the terminal open as we'll be using it again shortly.</p>	
+
+		<h4>Uploading</h4>
+
+		<p>In order to upload to your server, we need to use a tool that will allow us to connect via SSH to transfer the files.  I have found that <a href="https://web.archive.org/web/20210413133031/https://www.nyu.edu/its/software/#fetch">Fetch</a> and <a href="https://web.archive.org/web/20210413133031/http://cyberduck.io/">Cyberduck</a> are good tools.</p>
+
+		<p>To connect, choose "SFTP", under "Hostname" or "Server" use the IP address emailed to you by Digital Ocean.  The "username" is "root" and the "password" is what you just created in Terminal.</p>
+	
+	<h3>Basic HTTP Server</h3>
+
+	Here is a HTTP server that we can start with:<br/>
+	
+	<h4>server.js</h4>
+		<pre>
+// HTTP Portion
+var http = require('http');
+var fs = require('fs'); // Using the filesystem module
+var httpServer = http.createServer(requestHandler);
+var url = require('url');
+httpServer.listen(8080);
+
+function requestHandler(req, res) {
+
+	var parsedUrl = url.parse(req.url);
+	console.log("The Request is: " + parsedUrl.pathname);
+		
+	fs.readFile(__dirname + parsedUrl.pathname, 
+		// Callback function for reading
+		function (err, data) {
+			// if there is an error
+			if (err) {
+				res.writeHead(500);
+				return res.end('Error loading ' + parsedUrl.pathname);
+			}
+			// Otherwise, send the data, the contents of the file
+			res.writeHead(200);
+			res.end(data);
+  		}
+  	);
+  	
+  	/*
+  	res.writeHead(200);
+  	res.end("Life is wonderful");
+  	*/
+}
+	</pre>
+
+		<h4>Running it</h4>
+
+		<p> To run, upload these files to a new folder on your your server (using Fetch or Cyberduck)<br/>
+			Then you can run the server via node.
+
+		<pre>
+ssh root@YOUR_IP
+cd directory_you_just_created
+node server.js</pre>
+		</p>
+
+		Assuming you don't get any errors, you should be able to connect via your browser:
+		<b>http://YOUR_IP:8080/index.html</b>				
+				
+		<p>You may also want to read though this:  <a href="https://web.archive.org/web/20210413133031/http://www.hacksparrow.com/keep-node-js-script-running-after-logging-out-from-shell.html">Keep Node.js script running after logging out from shell</a><br/>
+

@@ -1,0 +1,144 @@
+
+<html>
+	<head>
+		<link rel="stylesheet" href="style.css" type="text/css">
+		<title>MongoDB with Node and Express</title>
+	</head>
+	<body>
+		<h1>MongoDB with Node and Express</h1>
+		
+		<h2>Mongo and mLab</h2>
+            	
+		<p>
+		<a href="https://www.mongodb.com/">MongoDB</a> is a <a href="https://www.mongodb.com/nosql-explained">NoSQL database</a> or object store that is relatively easy to use.
+		</p>
+
+		<p>
+		<a href="https://mlab.com/">mLab</a> is a company which offers cloud based MongoDB hosting with a <a href="http://docs.mongolab.com/data-api/">REST API</a> that we can easily utilize.
+		</p>
+
+		<p>
+		Let's go through the <a href="http://docs.mlab.com/">Quick Start</a><br />
+		</p>
+
+		<p>
+		Create a Single-node, Standard Line, Sandbox database with a name that makes sense for your application. Mine is called "aoactest".
+		</p>
+		<p>
+		Next you'll need a user to connect, click on the database and create one.
+		Mine is "test", test; probably a bad idea.
+		</p>
+
+		<p>
+		Next, we'll want to create a "collection" and add some "documents" to start playing with the database.  Mine is called "test", still probably a bad idea.
+		</p>
+
+		<h3>Mongojs Node Module</h3>		
+		
+		<p>
+		There are several node modules that are designed to work with <a href="https://www.npmjs.com/search?q=mongo">mongo</a>.  I find the <a href="https://www.npmjs.com/package/mongojs">mongojs module</a> to be the quickest to get started with.
+		</p>
+
+		<p>To get started, as with any node module, we need to install it via npm:		
+		<pre>
+npm install mongojs		
+		</pre>
+		</p>
+		
+		<p>Following that, we can use it in our applications and connect to our mLab hosted databases:
+		<pre>
+var mongojs = require('mongojs');
+var db = mongojs("username:password@example.com:port/mydb", ["mycollection"]);
+		</pre>
+		
+		One note about this:  Including your username and password in a file that is uploaded to github is probably a bad idea and you should instead use a <a href="config.html">config.js</a> file.
+		</p>
+		
+		<p>To <b>insert</b> a record into the database:
+		<pre>
+db.mycollection.save({"attribute_to_save":"value_to_save"}, function(err, saved) {
+  if( err || !saved ) console.log("Not saved");
+  else console.log("Saved");
+});		
+		</pre>
+		</p>
+		
+		<p>To <b>pull all records</b> from the database:
+		<pre>
+db.mycollection.find({}, function(err, saved) {
+  if (err || !saved) {
+  	console.log("No results");
+  }
+  else {
+  	saved.forEach(function(record) {
+    	console.log(record);
+  	});
+  	
+  	/* Alternatively you could loop through the records with a "for"
+  	for (var i = 0; i < saved.length; i++) {
+	  	console.log(saved[i]);
+	}
+	*/  	
+  }
+});		
+		</pre>
+			
+		</p>
+		
+		<p>To <b>search for records</b> which match a query term:
+		<pre>
+db.mycollection.find({"attribute":"value_to_search_for"}, function(err, saved) {
+  if( err || !saved) console.log("No results");
+  else saved.forEach( function(record) {
+    console.log(record);
+  } );
+});		
+		</pre>
+		Aside from a straight match as shown above, you can use a number of <a href="https://docs.mongodb.com/manual/reference/operator/query/">query operators that mongo supports</a>.  One of the most powerful is the <a href="https://docs.mongodb.com/manual/reference/operator/query/regex/#op._S_regex">regex or regular expression operator</a> which allows you to use powerful regular expression string matching.  <br />
+		This example will do a case-insensitive match for text in an attribute:		
+		<pre>
+db.mycollection.find({"attribute": { $regex: /regular_expression_pattern/, $options: 'i' }}, function(err, saved) {
+  if( err || !saved) console.log("No results");
+  else saved.forEach( function(record) {
+    console.log(record);
+  } );
+});		
+		</pre>		
+
+		We can use a variable such as one that comes in from a query string to define our regular expression as follows:
+
+		<pre>
+app.get('/search', function(req, res) {
+  var query = new RegExp(req.query.q, 'i');
+  db2.posts.find({"keywords": query}, 
+    function(err, saved) {
+      if( err || !saved) console.log("No results");
+      else res.send(saved);
+  });
+});
+		</pre>
+
+		Here is the search form that would work with the above route:
+
+		<pre>
+&lt;form method="GET" action="/search"&gt;
+&lt;input type='text' name="q"&gt;&lt;input type="submit" name="submit" value="Search"&gt;
+&lt;/form&gt;
+		</pre>
+
+		More information about regular expressions:<br />
+		<a href="http://shiffman.net/a2z/regex/">Programming from A to Z Regular Expressions</a><br />
+		<a href="https://www.lynda.com/Regular-Expressions-tutorials/Using-Regular-Expressions/85870-2.html">Lynda Using Regular Expressions Tutorial</a>
+		</p>
+		
+		<p>To <b>pull a specific record</b>, we use a result's _id attribute:
+		<pre>
+db.mycollection.findOne({
+    _id: mongojs.ObjectId("58b654cf449473350d45047f")
+}, function(err, record) {
+    console.log(record);
+});		
+		</pre>
+		</p>
+    </body>
+</html>

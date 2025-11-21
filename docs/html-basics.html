@@ -1,0 +1,97 @@
+
+		<h1>HTML Basics</h1>
+					
+		<p>HTML stands for HyperText Markup Language.  While not a traditional programming language, it is the language that is used to create web pages.  Typically a markup language is used to define the structure and display of content, HTML is no different.</p>
+		
+		<h3>Text Editor</h3>
+        <p>To write HTML, one of the first things you will need is a plain text editor.  Most operating systems come with this capability built-in (TextEdit on the Mac and Notepad on Windows).  While these applications work fine, there are some benefits to using a programmer's text editor such as <a href="http://www.barebones.com/products/TextWrangler/">TextWrangler</a> on the Mac or <a href="http://www.textpad.com/">TextPad</a> on Windows.</p>
+	  	<p>In particular, they have line numbering, syntax coloring and other features that will make it easier to work with.</p>
+
+	  	<h3>Tags</h3>
+		
+		<p>HTML is a tag based language.  This means that you define the structure of the content of a document using tags.</p>
+		
+		<p>An example of a tag would be: &lt;b&gt;some text&lt;/b&gt; which when rendered in a browser looks like this: <b>some text</b>.</p>
+
+		<p>Here are some tags that we'll start with:</p>
+		<li>&lt;html&gt;...&lt;/html&gt; Start and end HTML</li>
+		<li>&lt;head&gt;...&lt;/head&gt; Head of page, not actual content</li>
+		<li>&lt;title&gt;...&lt;/title&gt; Title of page</li>
+		<li>&lt;body&gt;...&lt;/body&gt; Body of page, where the content goes</li>
+		<li>&lt;div&gt;...&lt;/div&gt; Content section - <a href="http://www.w3schools.com/html/html_blocks.asp">Block level</a></li>
+		<li>&lt;span&gt;...&lt;/span&gt; Grouping - <a href="http://www.w3schools.com/html/html_blocks.asp">Inline</a></li>
+		<li>&lt;p&gt;...&lt;/p&gt; Paragraph</li>
+		<li>&lt;b&gt;...&lt;/b&gt; Bold</li>
+		<li>&lt;br /&gt; Line break (you'll notice that this tag doesn't have any content and therefore is both an begin and end tag, with the slash)</li>
+		<li>&lt;H1&gt;&lt;/H1&gt; (Also H2, H3, H4, etc..) </li>
+		<li>&lt;!-- ... --&gt; Comments</li>
+		<li>&lt;blink&gt;...&lt;/blink&gt; Make your text blink</li>
+		<li>&lt;a href="http://..."&gt;...&lt;/a&gt; Link to another page.  The "href=""" portion is an attribute.  Many tags have optional attributes.</li>
+		
+		<p>
+		Here is the source of an HTML example page:
+		<pre>
+&lt;html&gt; &lt;!-- Start the HTML --&gt;
+	&lt;head&gt; &lt;!-- Start the Head --&gt;
+		&lt;title&gt;This is a Web Page&lt;/title&gt; &lt;!-- The Title of the page, start and end tag with text in-between --&gt;
+	&lt;/head&gt; &lt;!-- End the Head, always with a "/" --&gt;
+	&lt;body&gt; &lt;!-- Start the body --&gt;
+		This is where you would put the content of the page. &lt;!-- This is a comment and won't display --&gt;
+		This will be on the same line as the above.  To specify a line break, you use: &lt;br /&gt; &lt;br /&gt;
+		&lt;!-- The above text displays both a &lt;br /&gt; and has this funny code: &lt;br /&gt;   That funny code allows us to display the special characters that are typically used to define a tag so that we can display them without the browser actually thinking they are the start and end of a tag.  This symbol:  &lt; is written as &lt; meaning "less than".  This symbol: &gt; is written as &gt; --&gt;
+		This text will be a line down
+		&lt;br /&gt;&lt;br /&gt; &lt;!-- Two line breaks --&gt; &lt;!-- Line break tags include the closing "/" as part of them, there isn't a &lt;/br&gt; tag. --&gt;
+		&lt;blink&gt;This Text Probably Doesn't Blink&lt;/blink&gt;
+	&lt;/body&gt; &lt;!-- End the body --&gt;
+&lt;/html&gt; &lt;!-- End the HTML --&gt;
+		</pre>
+		<a href="firstpage.html">See the page rendered in a browser</a><br/><br/>
+		To try this out, copy the above into a new text file and save it as <i>something</i>.html then open it in a web browser to see it.
+		</p>
+		<p>
+		<h3>Comments</h3>
+		Comments in HTML start with &lt;!-- and end with --&gt;
+		</p>
+		<p>
+		<h3>Nesting</h3>
+		As you see in the above example, HTML tags are nested within each-other.  For instance all of the content you want inside the body of the page is nested within the body start and end tags.
+		</p>
+		<p>
+		<h3>Indenting</h3>
+		Indenting isn't strictly required but it really helps YOU to see the nesting structure of the document.  What is inside what and gives you the ability to quickly recognize when you missed closing a tag.
+		</p>
+		<p>
+		<h3>Attributes</h3>
+		Tags, such as the &lt;a&gt; shown above can have "attributes".  In the case of the &lt;a&gt; it is "href" which indicates the URL that the link should be to.  Other common attributes are "id" and "class".  "id" allows a specific tag/element on the page to be referenced through JavaScript or CSS (which we'll cover later).  "class" is useful when using CSS to define the design of the page.
+		</p>
+		<p>
+		<h3>View Source</h3>
+		View Source one of the very fundamental things that made web publishing very successful in the beginning was the inclusion of "View Source" in most web browsers.  This allows people to look at the HTML of a page they are viewing so as to understand how it was constructed and learn how to do similar things themselves.
+		</p>
+
+		<p>
+		<h3>Images</h3>
+		To place an image in a page, you use a URL in the "src" attribute of the img tag: <br/>
+		<pre>
+&lt;img src="URLTOIMAGE" /&gt;
+&lt;img src="animage.jpg" /&gt;
+		or
+&lt;img src="http://itp.nyu.edu/~sve204/animage.jpg" /&gt;
+</pre>
+		</p>
+		
+		<p>
+		<h3>Style</h3>
+		You can use some basic CSS (cascading style sheets) in the "style" attribute of tags.  
+		<pre>
+&lt;div style="background: #00ff00; text-color: #ff0000;"&gt;This will be funky&lt;/div&gt;</pre>
+		<div style="background: #00ff00; text-color: #ff0000;">This will be funky</div><br/>
+		We'll get deeper into CSS later in the semester.
+		</p>
+								
+		<h4>More Information:</h4>
+		<a href="http://www.w3schools.com/tags/default.asp">HTML Tag Reference</a><br/>
+		<a href="http://www.w3schools.com/tags/ref_entities.asp">HTML Special Characters</a><br/>
+		<a href="http://www.w3schools.com/htmL/">w3schools.com HTML Tutorial</a><br/>
+		<a href="https://www.google.com/search?q=Html+tutorial&amp;oq=Html+tutorial&amp;aqs=chrome..69i57j69i60l2.3624j0&amp;sourceid=chrome&amp;ie=UTF-8">More more more</a>
+		</p>

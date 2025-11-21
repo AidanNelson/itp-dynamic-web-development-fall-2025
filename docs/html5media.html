@@ -1,0 +1,106 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="style.css" type="text/css">
+		<title>Live Web 2013 : HTML 5 Media</title>
+	</head>
+	<body>
+		<h1>HTML 5 Media</h1>
+				
+		<p>HTML 5 introduced support for audio and video natively in the browser (without plugins).  This makes removes the need to use proprietary tools and formats (such as Flash, QuickTime, Windows Media, Real) in order to provide basic media capabilities.</p>
+
+		<h2>Media Elements</h2>
+		<h3>Video</h3>
+		<h4>Basic Tag Usage</h4>
+		<pre>
+&lt;video width="720" height="480" src="video.mp4" controls /&gt;
+		</pre>
+		Example: <a href="video_basics.html">Video Basics</a><br />
+		Reference: <a href="http://www.w3schools.com/html/html5_video.asp">w3schools.com - HTML5 Video</a><br />
+		Browser Support: <a href="http://caniuse.com/#feat=video">Can I use... Video element</a><br />
+        
+		<h4>Formats/Codecs</h4>
+		MPEG-4/H.264: <a href="http://caniuse.com/#feat=mpeg4">http://caniuse.com/#feat=mpeg4</a><br />
+		WebM/VP8: <a href="http://caniuse.com/#feat=webm">http://caniuse.com/#feat=webm</a> | <a href="http://www.webmproject.org/">http://www.webmproject.org/</a><br />
+		Ogg/Theora: <a href="http://caniuse.com/#feat=ogv">http://caniuse.com/#feat=ogv</a> | <a href="http://www.theora.org/">http://www.theora.org/</a>
+
+		Tools: <a href="http://www.mirovideoconverter.com/">Miro Video Converter</a>
+
+       <h4>Supporting Multiple Formats</h4>
+		<pre>
+&lt;video width="720" height="480" controls&gt;
+	&lt;source src="video.mp4" type="video/mp4"&gt;
+	&lt;source src="video.ogg" type="video/ogg"&gt;
+	Your browser does not support the video tag.
+&lt;/video&gt;
+		</pre>
+        Attributes: autoplay, controls, height, width, loop, muted, poster, preload, src
+        <br /><br />
+        Example: <a href="video_basics_multi.html">Multiple Formats</a><br />
+        
+        <h3>Audio</h3>
+        <h4>Basic Tag Usage</h4>
+        <pre>
+&lt;audio controls src="audio.mp3" /&gt;
+		</pre>
+
+		Reference: <a href="http://www.w3schools.com/tags/tag_audio.asp">w3schools.com - HTML audio Tag</a><br />
+		Browser Support: <a href="http://caniuse.com/#feat=audio">Can I use... Audio element</a><br />
+		Formats/Codecs:  MP3, Ogg Vorbis, WAV
+        
+        <h4>Supporting Multiple Formats</h4>
+        <pre>
+&lt;audio controls&gt;
+	&lt;source src="audio.ogg" type="audio/ogg"&gt;
+	&lt;source src="audio.mp3" type="audio/mpeg"&gt;
+	Your browser does not support the audio tag.
+&lt;/audio&gt;
+		</pre>
+		Attributes: autoplay, controls, loop, preload, src
+
+
+		<h3>JavaScript</h3>
+        Of course, there are a lot of features and functionality available via JavaScript.  
+		<br /><br />
+        Overview: <a href="http://www.w3schools.com/tags/ref_av_dom.asp">w3schools.com - HTML Audio/Video DOM Reference</a>
+        <pre>
+&lt;html&gt;
+        &lt;head&gt;
+                &lt;title&gt;Video JavaScript&lt;/title&gt;
+        &lt;/head&gt;
+        &lt;body&gt;
+&lt;!-- Add an “id” to the video tag so that we can access it easily in JavaScript --&gt;
+                &lt;video width="720" height="480" controls id="thevideo"&gt;
+                        &lt;source src="video.webm" type="video/webm"&gt;
+                        &lt;source src="video.mp4" type="video/mp4"&gt;
+                        &lt;source src="video.ogg" type="video/ogg"&gt;
+                        Your browser does not support the video tag.
+                &lt;/video&gt;
+&lt;!-- When this button is clicked, call the doSomething function --&gt;
+                &lt;button onClick="doSomething()"&gt;Do Something here&lt;/button&gt;
+                &lt;script type="text/javascript"&gt;
+                        // Get Access to the Video Object
+                        var theVideoObject = document.getElementById("thevideo");
+                        // Alert, just to make sure it isn’t null
+                        alert(theVideoObject);
+                        
+						// Called by the Do Something button
+                        function doSomething() {
+                                // Change the width
+                                theVideoObject.width = theVideoObject.width/2;
+                                if (theVideoObject.paused) {
+                                // If the video is paused, call play
+                                        theVideoObject.play();
+                                } else {
+                                        // Otherwise, pause it
+                                        theVideoObject.pause();
+                                }                
+                        }
+                &lt;/script&gt;
+        &lt;/body&gt;
+&lt;/html&gt;
+		</pre>
+		Example: <a href="video_javascript.html">Video JavaScript Example</a><br /><br />
+        More Information: <a href="http://www.html5rocks.com/en/features/multimedia">HTML5 Rocks - Multimedia</a>
+      
+        </body>
+</html>

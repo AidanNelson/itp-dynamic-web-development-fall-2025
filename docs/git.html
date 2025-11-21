@@ -1,0 +1,52 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="style.css" type="text/css">
+		<title>HTML Basics</title>
+	</head>
+	<body>
+		<h1>HTML Basics</h1>
+					
+<h2>GIT</h2>
+			
+			<p>Git is a versioning system.  <a href="https://github.com/">GitHub</a> is popular public site for hosting git repositories.  To add our code to a git repository we do the following one time:
+				<pre>
+git init
+git add [FILES TO ADD TO GIT]
+git remote add origin [REMOTE GITHUB REPO]
+git commit
+git push origin master					
+				</pre>
+				
+				then when we are ready to edit and make changes and save them we use the following:
+				
+				<pre>
+git commit [FILE THAT WAS CHANGED] -m "[MESSAGE]"
+git push origin master 
+				</pre>
+				
+				That will ensure that we have a stored copy of the previous versions of the files along with our new changes on GitHub and in our local GIT repos.<br /><br />
+				
+				If we want our repo to be used elsewhere, perhaps on our server, we do the following:
+				
+				<pre>
+git clone [REMOTE GITHUB REPO]
+				</pre>
+				
+				Any time we have new changes to we can pull them down with 
+				
+				<pre>
+git pull origin master
+				</pre>
+			</p>
+			
+			<p>One handy feature of git is to have it ignore certain files and directories that you don't want included in a repo.  To use this, simply create and add a file called .gitignore to your repository and in the file list the files and directories you don't want included.  This is especially important when using node <a href="config.html">config</a> files.  Here is a sample .gitignore file:
+			
+			<pre>
+.DS_Store
+node_modules/
+config.js
+			</pre>
+			
+    </body>
+</html>
+
